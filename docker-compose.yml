@@ -1,0 +1,41 @@
+version: "3"
+services:
+  #ちなみにnodeはphp-fpm内にnodeを入れる
+  php-fpm:
+    container_name: lara_nux_php
+    build:
+      context: .
+      dockerfile: ./docker/php-fpm/Dockerfile
+    ports:
+      - 9000:9000
+    volumes:
+      - .:/var/www/html/
+
+  nginx:
+    container_name: lara_nux_nginx
+    image: nginx:alpine
+    depends_on:
+      - php-fpm
+    ports:
+      - 80:80
+    volumes:
+      - .:/var/www/html/
+      - ./docker/nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
+
+  db:
+    container_name: lara_nux_db
+    build:
+      context: "./docker/postgres"
+      dockerfile: "Dockerfile"
+    depends_on:
+      - php-fpm
+    ports:
+      - 5432:5432
+    #volumes:
+    # もし永続化させたいときにはこの部分を記載
+    #  - ./data/postgres:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=lara_nux
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=password
