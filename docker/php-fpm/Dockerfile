@@ -7,6 +7,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
   postgresql \
   python3 \
   unzip \
+  awscli \
   libfreetype6-dev \
   libjpeg62-turbo-dev \
   libwebp-dev \
