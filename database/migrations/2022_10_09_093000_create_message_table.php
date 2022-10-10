@@ -15,9 +15,10 @@ class CreateMessageTable extends Migration
     {
         Schema::create('messages', function (Blueprint $table) {
             $table->uuid('id')->comment('UUID');
-            $table->string('file_path', 255)->comment('S3の画像パス');
+            $table->string('file_path', 255)->nullable()->comment('S3の画像パス');
             $table->text('content')->nullable()->comment('メッセージ本文');
             $table->timestampsTz();
+            $table->primary('id');
         });
     }
 
