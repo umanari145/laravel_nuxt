@@ -7,6 +7,11 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
   postgresql \
   python3 \
   unzip \
+  libfreetype6-dev \
+  libjpeg62-turbo-dev \
+  libwebp-dev \
+  libxpm-dev \  
+  libpng-dev \
   && docker-php-ext-install \
     pdo_mysql \
     pdo_pgsql \
@@ -14,6 +19,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     zip \
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/*
+
+RUN docker-php-ext-configure gd --with-jpeg 
+RUN docker-php-ext-install -j$(nproc) gd
 
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
