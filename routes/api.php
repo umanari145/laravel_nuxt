@@ -15,3 +15,4 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::post('/message', [MessageController::class, 'store']);
+Route::get('/message/{id}', [MessageController::class, 'show']);

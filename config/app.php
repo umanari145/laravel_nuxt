@@ -232,4 +232,5 @@ return [
 
     ],
 
+    'image_url' => env('IMAGE_URL', 'http://localhost:4566')
 ];

@@ -42,4 +42,10 @@ class MessageService implements MessageServiceInterface
             throw new Exception('ファイルアップロード時にエラーが発生しました。');
         }
     }
+
+    public function find(string $id): Message
+    {
+        $message = Message::find($id);
+        return $message;
+    }
 }
