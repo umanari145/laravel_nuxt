@@ -29,7 +29,6 @@ class MessageController extends TestCase
             'image' => $src
         ]);
         $res = $response->json();
-        dd($res);
         $message = Message::find($res['uuid']);
         $this->assertSame($res['uuid'], $message->getId());
         $response->assertStatus(201);

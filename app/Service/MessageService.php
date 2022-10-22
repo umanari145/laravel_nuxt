@@ -41,6 +41,5 @@ class MessageService implements MessageServiceInterface
         if (!$is_success) {
             throw new Exception('ファイルアップロード時にエラーが発生しました。');
         }
-        Storage::disk('s3')->setVisibility($file, 'public');
     }
 }
