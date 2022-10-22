@@ -22,3 +22,30 @@ https://github.com/minetti0327/ogp-frontend
 docker exec -it lara_nux_db sh 
 psql -U user -d lara_nux
 ```
+
+## フロント(nuxt)へのアクセス
+```
+ docker exec lara_nux_node npm run dev
+```
+
+```
+> nuxt@1.0.0 dev /var/www/html
+> nuxt
+
+ℹ Listening on: http://172.30.0.3:3000/
+ℹ Preparing project for development
+ℹ Initial build may take a while
+ℹ Discovered Components: .nuxt/components/readme.md
+✔ Builder initialized
+✔ Nuxt files generated
+ℹ Compiling Client
+ℹ Compiling Server
+✔ Server: Compiled successfully in 14.69s
+✔ Client: Compiled successfully in 20.34s
+ℹ Waiting for file changes
+ℹ Memory usage: 236 MB (RSS: 333 MB)
+ℹ Listening on: http://172.30.0.3:3000/
+```
+
+http://localhost:3000/ へのアクセスするとアクセスできる
+

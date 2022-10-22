@@ -10,7 +10,8 @@ services:
       - 9000:9000
     volumes:
       - ./laravel/:/var/www/html/
-
+    networks:
+      - lara_nux
   nginx:
     container_name: lara_nux_nginx
     image: nginx:alpine
@@ -22,7 +23,25 @@ services:
       - ./laravel/:/var/www/html/
       - ./docker/nginx/nginx.conf:/etc/nginx/nginx.conf
       - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
+    networks:
+      - lara_nux
 
+  node:
+    container_name: lara_nux_node
+    build:
+        context: "./docker/node"
+        dockerfile: "Dockerfile"
+    volumes:
+        - ./nuxt/:/var/www/html
+    tty: true
+    environment:
+      - NODE_ENV=development
+      - HOST=0.0.0.0
+      - CHOKIDAR_USEPOLLING=true    
+    ports:
+        - "3000:3000"
+    networks:
+      - lara_nux
   db:
     container_name: lara_nux_db
     build:
@@ -39,6 +58,9 @@ services:
       - POSTGRES_DB=lara_nux
       - POSTGRES_USER=user
       - POSTGRES_PASSWORD=password
+    networks:
+      - lara_nux
+      
   localstack:
     image: localstack/localstack
     container_name: lara_nux_s3
@@ -52,3 +74,8 @@ services:
       - DATA_DIR=/tmp/localstack/data
     volumes:
       - ./docker/localstack/data:/tmp/localstack/data
+    networks:
+      - lara_nux
+networks:
+  lara_nux:
+    driver: "bridge"
