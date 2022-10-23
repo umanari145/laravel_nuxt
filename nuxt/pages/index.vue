@@ -11,6 +11,15 @@
         </span>
       </span>
     </div>
+    <div class="field">
+      <div class="control">
+        <client-only placeholder='Loading・・・'>
+          <div @click="handleGenerateOGP">
+            <GenerateOGPButton /> 
+          </div>
+        </client-only>      
+      </div>
+    </div>
     <div class="column">
       <form action="">
         <div class="field">
@@ -25,7 +34,11 @@
 </template>
 
 <script>
+import GenerateOGPButton from '@/components/Generator';
 export default {
+  components: {
+    GenerateOGPButton
+  },
   name: 'IndexPage',
   data() {
     return {
@@ -34,7 +47,11 @@ export default {
   },
   methods: {
     handleGenerateOGP(e) {
-
+      console.log('aaaa');
+      this.$store.dispatch('setMessage', {
+        message: this.message,
+        Image: e
+      });
     }
   }
 }
