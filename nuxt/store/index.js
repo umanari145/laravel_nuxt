@@ -28,7 +28,7 @@ export const actions = {
         commit('setLoading', payload)
     },
     async getOPG({commit}, payload) {
-        const data = await this.$axios.$get(`/api/messages/${payload}`);
+        const data = await this.$axios.$get(`/api/message/${payload}`);
         commit("setOGP", data);
     }
 }

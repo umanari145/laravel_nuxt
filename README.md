@@ -61,3 +61,24 @@ pages/
 
 .nuxt/router.jsに吐かれているのを確認できる
 ```
+
+```
+$axios.getと$axios.$getの違い
+$axios.getで取得する場合は、レスポンスが下記のようになります。
+
+{
+  "data": [], // レスポンスデータ
+  "status": 200, // ステータスコード
+  "statusText": "", // ステータステキスト
+  "headers": {},
+  "config": {},
+  "request": {}
+}
+実際に取得したいデータは「data」内に入っています。
+```
+statusコードなどがなく、シンプルな反面、statusコードの切り分けなどができない<br>
+https://webrandum.net/nuxt-axios-module/<br>
+https://zenn.dev/captain_blue/articles/nuxt-axios-method-memo
+
+
+
