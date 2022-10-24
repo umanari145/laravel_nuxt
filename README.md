@@ -3,6 +3,7 @@
 ## 構成
 PHP8.1<br>
 Laravel8<br>
+Nuxt2.5<br>
 Postgres13<br>
 nginx1.23<br>
 
@@ -23,6 +24,10 @@ docker exec -it lara_nux_db sh
 psql -U user -d lara_nux
 ```
 
+### プロジェクト作成
+```
+npx create-nuxt-app プロジェクト名
+```
 ## フロント(nuxt)へのアクセス
 ```
  docker exec lara_nux_node npm run dev
