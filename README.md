@@ -49,3 +49,15 @@ psql -U user -d lara_nux
 
 http://localhost:3000/ へのアクセスするとアクセスできる
 
+### nuxtのルーティング
+ディレクトリ構造で自動的に決まる
+```
+https://qiita.com/tekondo/items/80555991c019808669ef
+/users/34/
+の場合、以下のようなディレクトリ構成になる
+pages/
+--| users/
+-----| _id.vue
+
+.nuxt/router.jsに吐かれているのを確認できる
+```

@@ -10,18 +10,26 @@ export const mutations = {
     },
     setLoading(state, payload) {
         state.isLoading = payload       
+    },
+    setOGP(state, payload) {
+        state.ogpData = payload;
     }
 }
 
 export const actions = {
     async setMessage({commit}, payload) {
-        const id = await this.$axios.$post('api/message', payload)
-        if (id) {
-            this.$router.push(`/message/${id}`);
+        const res = await this.$axios.$post('api/message', payload)
+        if (res) {
+            // これでリダイレクトを記述できる
+            this.$router.push(`/message/${res['uuid']}`);
         }
     },
     setLoading({commit}, payload) {
         commit('setLoading', payload)
+    },
+    async getOPG({commit}, payload) {
+        const data = await this.$axios.$get(`/api/messages/${payload}`);
+        commit("setOGP", data);
     }
 }
 
@@ -31,5 +39,8 @@ export const getters = {
     },
     loading(state) {
         return state.load
+    },
+    ogpData(state) {
+        return state.ogpData;
     }
 }
