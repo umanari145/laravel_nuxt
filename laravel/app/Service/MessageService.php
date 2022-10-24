@@ -6,6 +6,7 @@ use App\Http\Requests\MessageRequest;
 use Illuminate\Support\Str;
 use App\Models\Message;
 use Exception;
+use Log;
 use Illuminate\Support\Facades\Storage;
 
 class MessageService implements MessageServiceInterface
@@ -21,6 +22,8 @@ class MessageService implements MessageServiceInterface
             $message->setContent($message_request->message);
         }
 
+        //$this->uploadFile($message, $message_request);
+
         $file = $id . '.jpg';
         $message->setFilePath($file);
 
@@ -33,8 +36,8 @@ class MessageService implements MessageServiceInterface
     {
         $id = $message->getId();
         $file = $id . '.jpg';
-        list(,$image) = explode(';', $message_request->image);
-        list(,$image) = explode(',', $image);
+        list(, $image) = explode(';', $message_request->image);
+        list(, $image) = explode(',', $image);
 
         $decoded_image = base64_decode($image);
         $is_success = Storage::disk('s3')->put($file, $decoded_image);

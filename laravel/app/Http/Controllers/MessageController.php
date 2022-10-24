@@ -20,7 +20,6 @@ class MessageController extends Controller
     public function store(MessageRequest $message_request): JsonResponse
     {
         $message = $this->message_service->create($message_request);
-        $this->message_service->uploadFile($message, $message_request);
         return response()->json([
             'status' => 201,
             'uuid' => $message->getId(),

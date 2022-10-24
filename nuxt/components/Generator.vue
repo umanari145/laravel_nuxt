@@ -8,9 +8,35 @@
 <script>
 export default {
     mounted() {
+        const ele = this.$refs.capture;
+        const self = this;
+        this.$nextTick(() => {
+            if (process.clinet) {
+                const h2c = require('html2canvas');
+                ele.addEventListener('click', () => {
+                    console.log('honjituhaseitenari')
+                    self.$store.dispatch('setLoading', true);
+                    window.screenTop(0,0);
+                    h2c(document.querySelector('#js_capture_ref'),  {
+                        backgroundColor: '#fff'
+                    }).then(canvas => {
+                        canvas.toBlob(blob => {
+                            const reader = new FileReader();
+                            reader.readAsDataURL(blob);
+                            reader.onload = function() {
+                                const dataURI = this.result;
+                                self.handleClick(dataURI);
+                            }
+                        })
+                    })
+                })
+            }
+        })
     },
     methods: {
-
+        handleClick(dataURI) {
+            this.$emit('click', dataURI);
+        }
     }
 }
 </script>

@@ -47,7 +47,6 @@ export default {
   },
   methods: {
     handleGenerateOGP(e) {
-      console.log('aaaa');
       this.$store.dispatch('setMessage', {
         message: this.message,
         Image: e
