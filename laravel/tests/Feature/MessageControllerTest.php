@@ -6,10 +6,11 @@ use App\Models\Message;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Tests\TestCase;
 
-class MessageController extends TestCase
+class MessageControllerTest extends TestCase
 {
     use RefreshDatabase;
 
@@ -56,5 +57,14 @@ class MessageController extends TestCase
             'image' => $src
         ]);
         return $response;
+    }
+
+    public function testpPostUploadImageNotBase64()
+    {
+        $file = UploadedFile::fake()->image('item.jpg');
+        $sample_dir = 'hogehoge_dir';
+        $file_path = Storage::disk('s3')->put($sample_dir, $file);
+        // aws s3 ls s3://sample/hogehoge_dir/********  --endpoint-url=http://localhost:4566
+        $this->assertTrue(Storage::disk('s3')->exists($file_path));
     }
 }
