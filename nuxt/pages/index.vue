@@ -1,5 +1,6 @@
 <template>
   <section class="section no-top-pad">
+    <h1>エントリーポイント</h1>
     <div id="js_capture_ref">
       <span class="your-mesage">
         あなたのメッセージ
