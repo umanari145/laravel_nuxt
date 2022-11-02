@@ -7,7 +7,7 @@
       <ul>
         <li v-for=" (location, index) in locations" :key="index">
           <select v-model="location.city">
-             <option value = ""></option>
+            <option value = ""></option>
             <option :value="city_val" v-for="(city_label, city_val) in city_list" :key="city_val">
               {{city_label}}
             </option>

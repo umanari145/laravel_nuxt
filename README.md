@@ -57,6 +57,9 @@ http://localhost:3000/ へのアクセスするとアクセスできる
 ### nuxtのルーティング
 ディレクトリ構造で自動的に決まる
 ```
+pages/
+  index.vue エントリーポイント
+
 https://qiita.com/tekondo/items/80555991c019808669ef
 /users/34/
 の場合、以下のようなディレクトリ構成になる

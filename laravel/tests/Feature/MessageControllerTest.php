@@ -63,7 +63,14 @@ class MessageControllerTest extends TestCase
     {
         $file = UploadedFile::fake()->image('item.jpg');
         $sample_dir = 'hogehoge_dir';
-        $file_path = Storage::disk('s3')->put($sample_dir, $file);
+
+        // ↓ 以下の書き方だとfile名がハッシュになる
+        //$file_path = Storage::disk('s3')->put($sample_dir, $file);
+        $file_path = Storage::disk('s3')->putFileAs($sample_dir, $file, $file->getClientOriginalName());
+        $url = Storage::disk('s3')->url($file_path);
+        $expected_url = sprintf('%s/%s/%s/%s', env('AWS_ENDPOINT'), env('AWS_BUCKET'), $sample_dir, $file->getClientOriginalName());
+        // $url= "http://localstack:4566/sample/hogehoge_dir/item.jpg"
+        $this->assertSame($expected_url, $url);
         // aws s3 ls s3://sample/hogehoge_dir/********  --endpoint-url=http://localhost:4566
         $this->assertTrue(Storage::disk('s3')->exists($file_path));
     }
