@@ -74,4 +74,31 @@ class MessageControllerTest extends TestCase
         // aws s3 ls s3://sample/hogehoge_dir/********  --endpoint-url=http://localhost:4566
         $this->assertTrue(Storage::disk('s3')->exists($file_path));
     }
+
+    public function testpPostUploadImageNotBase64DummyData()
+    {
+        $file_name = 'dummy_airi.jpeg';
+        $file_path = public_path($file_name);
+        //UploadedFile
+        $sample_dir = 'hogehoge_dir';
+        $upload_file = new UploadedFile(
+            $file_path,
+            $file_name,
+            'image/jpeg',
+            null,
+            true
+        );
+        // ↓ 以下の書き方だとfile名がハッシュになる
+        //$file_path = Storage::disk('s3')->put($sample_dir, $file);
+        $upload_file_path = Storage::disk('s3')->putFileAs($sample_dir, $upload_file, $file_name);
+        $url = Storage::disk('s3')->url($upload_file_path);
+        $url2 = parse_url($url);
+
+        $expected_path = sprintf('/%s/%s/%s', env('AWS_BUCKET'), $sample_dir, $file_name);
+        // $url= "http://localstack:4566/sample/hogehoge_dir/item.jpg"
+        // http://localhost:4566/sample/hogehoge_dir/dummy_airi.jpeg (←でアクセス可能)
+        $this->assertSame($expected_path, $url2['path']);
+        // aws s3 ls s3://sample/hogehoge_dir/********  --endpoint-url=http://localhost:4566
+        $this->assertTrue(Storage::disk('s3')->exists($upload_file_path));
+    }
 }
