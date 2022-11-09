@@ -88,5 +88,7 @@ statusコードなどがなく、シンプルな反面、statusコードの切�
 https://webrandum.net/nuxt-axios-module/<br>
 https://zenn.dev/captain_blue/articles/nuxt-axios-method-memo
 
+## styleにboostrap-vueを活用
 
+https://bootstrap-vue.org/
 
