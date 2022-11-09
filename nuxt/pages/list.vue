@@ -23,29 +23,40 @@
           <div class="d-block text-center col-10">
             <div class="d-flex align-items-center">
               <span class="col-3">名前: </span>
-              <b-form-input v-model="input_name" class="col-8 ml-1"></b-form-input>
+              <span class="col-8 ml-1 pl-0">
+                <b-form-input v-model="data.input_name" @blur="checkInput('名前', 'input_name')"></b-form-input>
+                <span class="danger" v-show="error_message.input_name !==''">{{error_message.input_name}}</span>
+              </span>
             </div>
             <div class="d-flex align-items-center mt-2">
               <span class="col-3">年齢: </span>
-              <b-form-input type="number" v-model="input_age" class="col-3 ml-1"></b-form-input>
+              <span class="col-8 pl-0 ml-1">
+                <b-form-input type="number" v-model="data.input_age" class="col-5 text-right" @blur="checkInput('年齢', 'input_age')"></b-form-input>
+                <span v-show="error_message.input_age !==''">{{error_message.input_age}}</span>
+              </span>
             </div>
             <div class="d-flex align-items-center mt-2">
               <span class="col-3">スコア: </span>
-              <b-form-input type="number" v-model="input_score" class="col-3 ml-1"></b-form-input>
+              <span class="col-8 pl-0 ml-1">
+                <b-form-input type="number" v-model="data.input_score" class="col-5 text-right" @blur="checkInput('スコア', 'input_score')"></b-form-input>
+                <span v-show="error_message.input_score !==''">{{error_message.input_score}}</span>
+              </span>
             </div>
           </div>
           <b-button class="mt-3" variant="outline-danger" block @click="hideModal">閉じる</b-button>
           <b-button class="mt-2" variant="outline-warning" block @click="addMember">追加</b-button>
-          <div class="modal_spinner" v-if="is_loading === 1">
-            <b-spinner type="grow" label="Loading..."></b-spinner>
+          <div class="loading_wrapper"  v-if="is_loading === 1">
+            <div class="modal_spinner">
+              <b-spinner type="grow" label="Loading..."></b-spinner>
+            </div>
           </div>
         </b-modal>
       </div>
       <table class="mt-2 table b-table table-hover col-8">
         <thead>
           <tr>
-            <th> </th>
-            <th>ID</th>
+            <th></th>
+            <th>ID </th>
             <th>名前</th>
             <th>年齢</th>
             <th>スコア</th>
@@ -90,10 +101,17 @@ export default {
     return {
       target_score:'',
       target_age: '',
-      input_name: '',
-      input_age: '',
-      input_score: '',
+      data: {
+        'input_name': '',
+        'input_age': '',
+        'input_score': '',
+      },
       is_loading: 0,
+      error_message: {
+        'input_name': '',
+        'input_age': '',
+        'input_score': ''
+      },
       members: [
         {
           'id': '1',
@@ -144,6 +162,12 @@ export default {
     hideModal() {
       this.$refs['my-modal'].hide()
     },
+    checkInput(val_name, key) {
+      this.error_message[key] = '';
+      if (this.data[key] === '') {
+        this.error_message[key] = val_name + 'が入力されていません。';
+      }
+    },
     addMember() {
       this.is_loading = 1
       // 入力 (APIの代わり)
@@ -153,15 +177,15 @@ export default {
         let member = {};
         member = {
           'id': this.members.length + 1,
-          'name': this.input_name,
-          'age': parseInt(this.input_age),
-          'score': parseInt(this.input_score)
+          'name': this.data.input_name,
+          'age': parseInt(this.data.input_age),
+          'score': parseInt(this.data.input_score)
         },
         this.members.push(member);
         this.$refs['my-modal'].hide();
-        this.input_name = '';
-        this.input_age = '';
-        this.input_score = '';
+        this.data.input_name = '';
+        this.data.input_age = '';
+        this.data.input_score = '';
       }, 1500)
     }
   }
@@ -174,10 +198,22 @@ export default {
   .modal-content {
     position: relative;
   }
+  .loading_wrapper {
+    position: absolute;
+    z-index: 10000;
+    top:-63px;
+    left:0;
+    width: 100%;
+    height: 327px;
+    background-color: gray;
+    opacity: 0.7;
+  }
   .modal_spinner {
     /** 計算めんどいので暫定的に **/
     position: absolute;
-    top: 70px;
-    left: 234px;
+    top: 50%;
+    left: 50%;
+    margin-top: -16px;
+    margin-left: -16px;
   }
 </style>

@@ -13,7 +13,7 @@
               </option>
             </b-form-select>
             <b-form-select v-model="location.town" class="ml-2 col-2">
-              <option value="" ></option>
+              <option value=""></option>
               <option :value="town_val" v-for="(town_label, town_val) in town_list[location.city]" :key="town_val">
                 {{town_label}}
               </option>
