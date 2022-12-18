@@ -4,24 +4,24 @@
             ロケ追加
         </b-button>
         <ul>
-            <li v-for=" (location, index) in locations" :key="index" class="d-flex mt-2">
-                <b-form-select v-model="location.city" class="col-2">
-                    <option value=""></option>
-                    <option :value="city_val" v-for="(city_label, city_val) in city_list" :key="city_val">
-                    {{city_label}}
-                    </option>
-                </b-form-select>
-                <b-form-select v-model="location.town" class="ml-2 col-2">
-                    <option value=""></option>
-                    <option :value="town_val" v-for="(town_label, town_val) in town_list[location.city]" :key="town_val">
-                    {{town_label}}
-                    </option>
-                </b-form-select>
-                
-                <b-button variant="danger" @click="delete_locations(index)" v-show="locations.length > 1" class="ml-2 col-1">
-                    削除
-                </b-button>
-            </li>
+          <li v-for=" (location, index) in locations" :key="index" class="d-flex mt-2">
+              <b-form-select v-model="location.city" class="col-2">
+                  <option value=""></option>
+                  <option :value="city_val" v-for="(city_label, city_val) in city_list" :key="city_val">
+                  {{city_label}}
+                  </option>
+              </b-form-select>
+              <b-form-select v-model="location.town" class="ml-2 col-2">
+                  <option value=""></option>
+                  <option :value="town_val" v-for="(town_label, town_val) in town_list[location.city]" :key="town_val">
+                  {{town_label}}
+                  </option>
+              </b-form-select>
+              
+              <b-button variant="danger" @click="delete_locations(index)" v-show="locations.length > 1" class="ml-2 col-1">
+                  削除
+              </b-button>
+          </li>
         </ul>
     </div>
 </template>
