@@ -1,36 +1,58 @@
 <template>
   <b-container style="margin:0 0 0 40px;">
     <h1>動的なプルダウン＋プルダウン追加</h1>
-      <b-button style="background-color:blue;" @click="add_locations">
-        ロケ追加
+      <h2>一括ロケ</h2>
+      <b-button style="background-color:blue;" @click="copy_locations">
+        コピーロケーション
       </b-button>
-      <ul>
-        <li v-for=" (location, index) in locations" :key="index" class="d-flex mt-2">
-            <b-form-select v-model="location.city" class="col-2">
-              <option value=""></option>
-              <option :value="city_val" v-for="(city_label, city_val) in city_list" :key="city_val">
-                {{city_label}}
-              </option>
-            </b-form-select>
-            <b-form-select v-model="location.town" class="ml-2 col-2">
-              <option value=""></option>
-              <option :value="town_val" v-for="(town_label, town_val) in town_list[location.city]" :key="town_val">
-                {{town_label}}
-              </option>
-            </b-form-select>
-            <b-button variant="danger" @click="delete_locations(index)" v-show="locations.length > 1" class="ml-2 col-1">
-              削除
-            </b-button>
-        </li>
-      </ul>
+
+      <span class="ml-2 text-danger">
+        {{copy_error_msg}}
+      </span>
+
+      <TemplateCityTown 
+        :location.sync="template_location"
+      >
+      </TemplateCityTown>      
+
+      <div class="mt-3">
+        <h2>第一ロケ</h2>
+        <CityTown 
+          :locations="first_locations"
+        >
+        </CityTown>
+
+        <h2>第2ロケ</h2>
+        <CityTown 
+          :locations="second_locations"
+        >
+        </CityTown>
+      </div>
   </b-container>
 </template>
 <script>
+import CityTown from '@/components/CityTown';
+import TemplateCityTown from '@/components/TemplateCityTown';
 export default {
   name: 'pulldown',
+  components: {
+    CityTown,
+    TemplateCityTown
+  },
   data() {
     return {
-      locations: [
+      copy_error_msg:'',
+      template_location: {
+          'city': '',
+          'town': ''
+      },
+      first_locations: [
+        {
+          'city': '',
+          'town': ''
+        }
+      ],
+      second_locations: [
         {
           'city': '',
           'town': ''
@@ -53,16 +75,20 @@ export default {
     }
   },
   methods: {
-    add_locations() {
-      const location = {
-        'city': '',
-        'town': ''
-      };
-      this.locations.push(location);
+    copy_locations() {
+      this.copy_error_msg = ''
+      if (this.template_location.city !== '' && this.template_location.town !== '') {
+        this.first_locations.push(
+          this.template_location
+        );
+        
+        this.second_locations.push(
+          this.template_location
+        );
+      } else {
+        this.copy_error_msg = '入力が不完全です。';
+      }
     },
-    delete_locations(index) {
-      this.locations.splice(index, 1)
-    }
   }
 }
 </script>
