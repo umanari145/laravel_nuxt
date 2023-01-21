@@ -9,24 +9,24 @@
 
         <div class="d-flex align-items-center mt-2">
             <span class="col-3">
-            <input type="radio" v-model="discount_type" id="discount_type_price" value="price" @change="input_is_valid()">
-            <label for="discount_type_price" class="ml-1">値引き</label>
+            <input type="radio" v-model="discount_type" :id="`discount_type_price_${label_id}`" value="price" @change="input_is_valid()">
+            <label :for="`discount_type_price_${label_id}`" class="ml-1">値引き</label>
             </span>
             <b-form-input type="number" v-model="discount_price" class="text-right col-2 ml-2" :disabled="is_discount_price_disabled"></b-form-input>
         </div>
 
         <div class="d-flex align-items-center mt-2">
             <span class="col-3">
-            <input type="radio" v-model="discount_type" id="discount_type_rate" value="rate" @change="input_is_valid()">
-            <label for="discount_type_rate" class="ml-1">割合</label>
+            <input type="radio" v-model="discount_type" :id="`discount_type_rate_${label_id}`" value="rate" @change="input_is_valid()">
+            <label :for="`discount_type_rate_${label_id}`" class="ml-1">割合</label>
             </span>
             <b-form-input type="number" v-model="discount_rate" class="text-right col-2 ml-2" :disabled="is_discount_rate_disabled"></b-form-input>
         </div>
 
         <div class="d-flex align-items-center mt-2">
             <span class="col-3">
-            <input type="radio" v-model="discount_type" id="discount_type_none" value="none" @change="input_is_valid()">
-            <label for="discount_type_none" class="ml-1">割引なし</label>
+            <input type="radio" v-model="discount_type" :id="`discount_type_none_${label_id}`" value="none" @change="input_is_valid()">
+            <label :for="`discount_type_none_${label_id}`" class="ml-1">割引なし</label>
             </span>
         </div>
         </div>
@@ -35,13 +35,16 @@
   </div>
 </template>
 <script>
-import Price from '@/components/Price';
 export default {
-  name: 'pricelist',
+  name: 'price',
   components: {
-    Price
   },
   props: {
+    label_id: {
+      type:Number,
+      required:true,
+      default:0
+    },
     label:{
       type:String,
       required:true,
@@ -124,6 +127,8 @@ export default {
     }
   },
   created() {
+      //中の変数と外の変数は基本的に共有できないので、共有化したい場合は
+      //ここでおきかえておく
       this.discount_type = this.p_discount_type;
       this.discount_price = this.p_discount_price;
       this.discount_rate = this.p_discount_rate;
