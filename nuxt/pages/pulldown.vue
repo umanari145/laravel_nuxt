@@ -78,18 +78,22 @@ export default {
     copy_locations() {
       this.copy_error_msg = ''
       if (this.template_location.city !== '' && this.template_location.town !== '') {
+        // ディープコピーするため(これをしないと元タグの変更の影響をうける)
+        let template_location_copy_1 = JSON.parse(JSON.stringify(this.template_location))
         this.first_locations.push(
-          this.template_location
+          template_location_copy_1
         );
-        
+        let template_location_copy_2 = JSON.parse(JSON.stringify(this.template_location))
         this.second_locations.push(
-          this.template_location
+          template_location_copy_2
         );
       } else {
         this.copy_error_msg = '入力が不完全です。';
       }
     },
   }
+
+
 }
 </script>
 <style scoped>
